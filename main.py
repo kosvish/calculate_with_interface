@@ -1,4 +1,6 @@
 import tkinter as tk
+from math import sqrt
+from numpy import square
 
 # colors
 OFF_WHITE = "#F8FAFF"
@@ -12,9 +14,12 @@ SMALL_FONT_STYLE = ("Arial", 16)
 DIGITS_FONT_STYLE = ("Arial", 24, "bold")
 DEFAULT_FONT_STYLE = ("Arial", 20)
 
+
 class Calculator:
     def __init__(self):
         # main window
+        self.square = square
+        self.sqrt = sqrt
         self.window = tk.Tk()
         self.window.geometry("375x667")
         self.window.resizable(False, False)
@@ -28,6 +33,11 @@ class Calculator:
         self.display_frame = self.create_display_frame()
         self.buttons_frame = self.create_buttons_frame()
 
+        self.buttons_frame.rowconfigure(0, weight=1)
+        for i in range(1, 5):
+            self.buttons_frame.rowconfigure(i, weight=1)
+            self.buttons_frame.columnconfigure(i, weight=1)
+
         self.total_label, self.label = self.create_display_labels()
 
         self.digits = {
@@ -40,12 +50,16 @@ class Calculator:
             "/": "\u00F7",
             "*": "\u00D7",
             "-": "-",
-            "+": "+"
+            "+": "+",
+            "**": "^",
+
         }
         self.create_digit_buttons()
         self.create_operator()
         self.create_clear_button()
         self.create_equal_button()
+        self.create_sqrt_button()
+        self.create_square_button()
 
     def create_digit_buttons(self):
         for digit, grid_value in self.digits.items():
@@ -67,7 +81,7 @@ class Calculator:
         clear_button = tk.Button(
             self.buttons_frame, text="C", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0
         )
-        clear_button.grid(row=0, column=1, columnspan=3, sticky=tk.NSEW)
+        clear_button.grid(row=0, column=1, sticky=tk.NSEW)
 
     def create_equal_button(self):
         equal_button = tk.Button(
@@ -75,6 +89,19 @@ class Calculator:
         )
         equal_button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
 
+    def create_sqrt_button(self):
+        button = tk.Button(
+            self.buttons_frame, text="\u221ax", bg="white",
+            fg="black", font=("Arial", 20),
+            borderwidth=0, command=self.sqrt)
+        button.grid(row=0, column=3, sticky=tk.NSEW)
+
+    def create_square_button(self):
+        button = tk.Button(
+            self.buttons_frame, text="^", bg="white",
+            fg="black", font=("Arial", 20),
+            borderwidth=0, command=self.square)
+        button.grid(row=0, column=2, sticky=tk.NSEW)
 
     def create_display_labels(self):
         total_label = tk.Label(
