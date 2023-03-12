@@ -44,6 +44,8 @@ class Calculator:
         }
         self.create_digit_buttons()
         self.create_operator()
+        self.create_clear_button()
+        self.create_equal_button()
 
     def create_digit_buttons(self):
         for digit, grid_value in self.digits.items():
@@ -61,6 +63,17 @@ class Calculator:
             operator.grid(row=i, column=4, sticky=tk.NSEW)
             i += 1
 
+    def create_clear_button(self):
+        clear_button = tk.Button(
+            self.buttons_frame, text="C", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0
+        )
+        clear_button.grid(row=0, column=1, columnspan=3, sticky=tk.NSEW)
+
+    def create_equal_button(self):
+        equal_button = tk.Button(
+            self.buttons_frame, text="=", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0
+        )
+        equal_button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
 
 
     def create_display_labels(self):
