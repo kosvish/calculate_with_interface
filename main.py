@@ -1,15 +1,16 @@
 import tkinter as tk
 
 # colors
+OFF_WHITE = "#F8FAFF"
+WHITE = "#FFFFFF"
+LIGHT_BLUE = "#CCEDFF"
 LIGHT_GRAY = "#F5F5F5"
 LABEL_COLOR = "#25265E"
-WHITE = "#FFFFFF"
-
 # fonts
-DIGITS_FONT_STYLE = ("Arial", 24, "bold")
-SMALL_FONT_STYLE = ("Arial", 16)
 LARGE_FONT_STYLE = ("Arial", 40, "bold")
-
+SMALL_FONT_STYLE = ("Arial", 16)
+DIGITS_FONT_STYLE = ("Arial", 24, "bold")
+DEFAULT_FONT_STYLE = ("Arial", 20)
 
 class Calculator:
     def __init__(self):
@@ -35,13 +36,32 @@ class Calculator:
             1: (3, 1), 2: (3, 2), 3: (3, 3),
             0: (4, 2), '.': (4, 1)
         }
+        self.operations = {
+            "/": "\u00F7",
+            "*": "\u00D7",
+            "-": "-",
+            "+": "+"
+        }
         self.create_digit_buttons()
+        self.create_operator()
 
     def create_digit_buttons(self):
         for digit, grid_value in self.digits.items():
             button = tk.Button(self.buttons_frame, text=str(digit), bg=WHITE, fg=LABEL_COLOR, font=DIGITS_FONT_STYLE,
                                borderwidth=0)
             button.grid(row=grid_value[0], column=grid_value[1], sticky=tk.NSEW)
+
+    def create_operator(self):
+        i = 0
+        for oper, symbol in self.operations.items():
+            operator = tk.Button(self.buttons_frame,
+                                 text=str(symbol), bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                                 borderwidth=0
+                                 )
+            operator.grid(row=i, column=4, sticky=tk.NSEW)
+            i += 1
+
+
 
     def create_display_labels(self):
         total_label = tk.Label(
