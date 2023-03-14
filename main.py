@@ -49,21 +49,13 @@ class Calculator:
             "*": "\u00D7",
             "-": "-",
             "+": "+",
-            "**": "^",
 
         }
         self.create_digit_buttons()
         self.create_operator()
         self.create_clear_button()
         self.create_equal_button()
-        self.create_sqrt_button()
-        self.create_square_button()
 
-    def sqrt(self, x):
-        return sqrt(x)
-
-    def square(self, x, num):
-        return x ** num
 
     def create_digit_buttons(self):
         for digit, grid_value in self.digits.items():
@@ -97,19 +89,6 @@ class Calculator:
         )
         equal_button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
 
-    def create_sqrt_button(self):
-        button = tk.Button(
-            self.buttons_frame, text="\u221ax", bg="white",
-            fg="black", font=("Arial", 20),
-            borderwidth=0, command=self.sqrt)
-        button.grid(row=0, column=3, sticky=tk.NSEW)
-
-    def create_square_button(self):
-        button = tk.Button(
-            self.buttons_frame, text="^", bg="white",
-            fg="black", font=("Arial", 20),
-            borderwidth=0, command=self.square)
-        button.grid(row=0, column=2, sticky=tk.NSEW)
 
     def create_display_labels(self):
         total_label = tk.Label(
