@@ -18,16 +18,14 @@ DEFAULT_FONT_STYLE = ("Arial", 20)
 class Calculator:
     def __init__(self):
         # main window
-        self.square = square
-        self.sqrt = sqrt
         self.window = tk.Tk()
         self.window.geometry("375x667")
         self.window.resizable(False, False)
         self.window.title("Calculator")
 
         # meaning of expressions
-        self.total_expression = "0"
-        self.current_expression = "0"
+        self.total_expression = ""
+        self.current_expression = ""
 
         # variables for display
         self.display_frame = self.create_display_frame()
@@ -61,10 +59,18 @@ class Calculator:
         self.create_sqrt_button()
         self.create_square_button()
 
+    def sqrt(self, x):
+        return sqrt(x)
+
+    def square(self, x, num):
+        return x ** num
+
     def create_digit_buttons(self):
         for digit, grid_value in self.digits.items():
             button = tk.Button(self.buttons_frame, text=str(digit), bg=WHITE, fg=LABEL_COLOR, font=DIGITS_FONT_STYLE,
-                               borderwidth=0)
+                               borderwidth=0,
+                               command=lambda x=digit: self.add_expression(x)
+                               )
             button.grid(row=grid_value[0], column=grid_value[1], sticky=tk.NSEW)
 
     def create_operator(self):
@@ -72,7 +78,7 @@ class Calculator:
         for oper, symbol in self.operations.items():
             operator = tk.Button(self.buttons_frame,
                                  text=str(symbol), bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
-                                 borderwidth=0
+                                 borderwidth=0, command=lambda x=oper: self.append_operator(x)
                                  )
             operator.grid(row=i, column=4, sticky=tk.NSEW)
             i += 1
@@ -126,6 +132,26 @@ class Calculator:
         frame = tk.Frame(self.window)
         frame.pack(expand=True, fill="both")
         return frame
+
+
+
+
+    def append_operator(self, operator):
+        self.current_expression += operator
+        self.total_expression += self.current_expression
+        self.current_expression = ''
+        self.update_total_label()
+        self.update_label()
+
+    def add_expression(self, value):
+        self.current_expression += str(value)
+        self.update_label()
+
+    def update_total_label(self):
+        self.total_label.config(text=self.total_expression)
+
+    def update_label(self):
+        self.label.config(text=self.current_expression)
 
     def run(self):
         self.window.mainloop()
