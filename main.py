@@ -85,13 +85,15 @@ class Calculator:
 
     def create_clear_button(self):
         clear_button = tk.Button(
-            self.buttons_frame, text="C", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0
+            self.buttons_frame, text="C", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0,
+            command=self.clear_expression
         )
         clear_button.grid(row=0, column=1, sticky=tk.NSEW)
 
     def create_equal_button(self):
         equal_button = tk.Button(
-            self.buttons_frame, text="=", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0
+            self.buttons_frame, text="=", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0,
+            command=self.evaluate
         )
         equal_button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
 
@@ -133,8 +135,19 @@ class Calculator:
         frame.pack(expand=True, fill="both")
         return frame
 
+    # получаем результат выражения
+    def evaluate(self):
+        self.total_expression += self.current_expression
+        self.update_label()
+        self.current_expression = str(eval(self.total_expression))
+        self.total_expression = ''
+        self.update_label()
 
-
+    def clear_expression(self):
+        self.total_expression = ''
+        self.current_expression = ''
+        self.update_label()
+        self.update_total_label()
 
     def append_operator(self, operator):
         self.current_expression += operator
