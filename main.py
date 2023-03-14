@@ -139,9 +139,13 @@ class Calculator:
     def evaluate(self):
         self.total_expression += self.current_expression
         self.update_label()
-        self.current_expression = str(eval(self.total_expression))
-        self.total_expression = ''
-        self.update_label()
+        try:
+            self.current_expression = str(eval(self.total_expression))
+            self.total_expression = ''
+        except ZeroDivisionError:
+            self.current_expression = 'Error'
+        finally:
+            self.update_label()
 
     def clear_expression(self):
         self.total_expression = ''
